@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Громов Олег Николаевич</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Montserrat:wght@300;400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #080b12;
+    --surface: #0e1220;
+    --gold: #c9a84c;
+    --gold2: #f0d080;
+    --teal: #38c8c0;
+    --text: #e8e4dc;
+    --muted: #7a8090;
+    --border: rgba(201,168,76,0.18);
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── animated background ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 30%, rgba(56,200,192,.07) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 70%, rgba(201,168,76,.07) 0%, transparent 70%);
+    animation: breathe 8s ease-in-out infinite alternate;
+    pointer-events: none;
+    z-index: 0;
+  }
+  @keyframes breathe {
+    from { opacity: .6; transform: scale(1); }
+    to   { opacity: 1;  transform: scale(1.06); }
+  }
+
+  /* grid noise texture */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── card wrapper ── */
+  .scene {
+    position: relative; z-index: 1;
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 2rem 1rem;
+  }
+
+  .card {
+    position: relative;
+    width: min(480px, 100%);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 3rem 2.5rem 2.5rem;
+    overflow: hidden;
+    animation: cardIn .9s cubic-bezier(.22,1,.36,1) both;
+  }
+  @keyframes cardIn {
+    from { opacity:0; transform: translateY(32px) scale(.97); }
+    to   { opacity:1; transform: translateY(0)    scale(1); }
+  }
+
+  /* corner glow lines */
+  .card::before, .card::after {
+    content: '';
+    position: absolute;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+  .card::before {
+    inset: -1px;
+    background: linear-gradient(135deg, rgba(201,168,76,.4) 0%, transparent 40%, transparent 60%, rgba(56,200,192,.3) 100%);
+    z-index: 0;
+    border-radius: 20px;
+    mask: linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
+    mask-composite: exclude;
+    -webkit-mask-composite: xor;
+    padding: 1px;
+  }
+  .card::after {
+    inset: 0;
+    background: radial-gradient(ellipse 80% 40% at 50% 0%, rgba(201,168,76,.06) 0%, transparent 70%);
+    z-index: 0;
+  }
+
+  .card > * { position: relative; z-index: 1; }
+
+  /* ── monogram / avatar ring ── */
+  .avatar {
+    width: 90px; height: 90px;
+    margin: 0 auto 1.8rem;
+    position: relative;
+  }
+  .avatar-ring {
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(var(--gold), var(--teal), var(--gold));
+    display: flex; align-items: center; justify-content: center;
+    animation: spin 12s linear infinite;
+    box-shadow: 0 0 28px rgba(201,168,76,.25);
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .avatar-inner {
+    width: 78px; height: 78px;
+    border-radius: 50%;
+    background: var(--surface);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    /* keep bg for the circle behind */
+    position: relative;
+  }
+  .avatar-inner::before {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: 50%;
+    background: var(--surface);
+    z-index: -1;
+  }
+
+  /* ── name ── */
+  .name {
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
+    font-weight: 600;
+    letter-spacing: .04em;
+    line-height: 1.2;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold2) 50%, var(--gold) 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 4s linear infinite, fadeUp .8s .2s both;
+    text-shadow: none;
+    filter: drop-shadow(0 0 22px rgba(201,168,76,.4));
+  }
+  @keyframes shimmer { to { background-position: 200% center; } }
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(14px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  /* ── divider ── */
+  .divider {
+    display: flex; align-items: center; gap: .8rem;
+    margin: 1.2rem 0 1rem;
+    animation: fadeUp .8s .35s both;
+  }
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: .4;
+  }
+  .divider-diamond {
+    width: 6px; height: 6px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    opacity: .7;
+  }
+
+  /* ── specialization ── */
+  .spec {
+    text-align: center;
+    font-size: .78rem;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--teal);
+    opacity: .85;
+    animation: fadeUp .8s .45s both;
+  }
+
+  /* ── tags ── */
+  .tags {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem;
+    margin: 1.6rem 0;
+    animation: fadeUp .8s .55s both;
+  }
+  .tag {
+    padding: .3rem .85rem;
+    border: 1px solid rgba(201,168,76,.25);
+    border-radius: 50px;
+    font-size: .72rem;
+    letter-spacing: .1em;
+    color: var(--gold);
+    background: rgba(201,168,76,.05);
+    text-transform: uppercase;
+  }
+
+  /* ── social icons ── */
+  .socials {
+    display: flex; justify-content: center; gap: 1.1rem;
+    margin: 1.6rem 0;
+    animation: fadeUp .8s .65s both;
+  }
+  .social-btn {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,.03);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform .25s, border-color .25s, background .25s, box-shadow .25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .social-btn::before {
+    content: '';
+    position: absolute; inset: 0; border-radius: 50%;
+    background: radial-gradient(circle at 50% 0%, rgba(201,168,76,.18), transparent 70%);
+    opacity: 0;
+    transition: opacity .25s;
+  }
+  .social-btn:hover::before { opacity: 1; }
+  .social-btn:hover {
+    transform: translateY(-4px) scale(1.08);
+    border-color: rgba(201,168,76,.55);
+    box-shadow: 0 8px 28px rgba(201,168,76,.18), 0 0 0 1px rgba(201,168,76,.12);
+  }
+  .social-btn svg {
+    width: 20px; height: 20px;
+    fill: var(--muted);
+    transition: fill .25s;
+  }
+  .social-btn:hover svg { fill: var(--gold2); }
+
+  /* ── CTA button ── */
+  .cta-wrap {
+    display: flex; justify-content: center;
+    margin-top: 1.8rem;
+    animation: fadeUp .8s .75s both;
+  }
+  .cta {
+    position: relative;
+    display: inline-flex; align-items: center; gap: .6rem;
+    padding: .85rem 2.2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: .8rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--bg);
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold2) 50%, var(--gold) 100%);
+    background-size: 200% auto;
+    transition: background-position .5s, transform .25s, box-shadow .25s;
+    box-shadow: 0 4px 24px rgba(201,168,76,.3), 0 0 0 0 rgba(201,168,76,.4);
+    overflow: hidden;
+  }
+  .cta::after {
+    content: '';
+    position: absolute; inset: 0; border-radius: inherit;
+    background: rgba(255,255,255,.12);
+    opacity: 0;
+    transition: opacity .2s;
+  }
+  .cta:hover::after { opacity: 1; }
+  .cta:hover {
+    background-position: right center;
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 8px 36px rgba(201,168,76,.45), 0 0 0 3px rgba(201,168,76,.15);
+  }
+  .cta:active { transform: scale(.98); }
+  .cta svg { width: 16px; height: 16px; fill: var(--bg); flex-shrink: 0; }
+  /* pulse ring */
+  .cta-pulse {
+    position: absolute; inset: 0; border-radius: inherit;
+    border: 2px solid rgba(201,168,76,.55);
+    animation: pulse 2.4s ease-out infinite;
+    pointer-events: none;
+  }
+  @keyframes pulse {
+    0%   { transform: scale(1);   opacity: .7; }
+    70%  { transform: scale(1.1); opacity: 0; }
+    100% { transform: scale(1.1); opacity: 0; }
+  }
+
+  /* ── footer note ── */
+  .footer-note {
+    text-align: center;
+    font-size: .68rem;
+    letter-spacing: .1em;
+    color: var(--muted);
+    margin-top: 2rem;
+    opacity: .6;
+    animation: fadeUp .8s .85s both;
+  }
+</style>
+</head>
+<body>
+<div class="scene">
+  <div class="card">
+
+    <!-- Avatar / monogram -->
+    <div class="avatar">
+      <div class="avatar-ring">
+        <div class="avatar-inner">ОГ</div>
+      </div>
+    </div>
+
+    <!-- Name -->
+    <h1 class="name">Громов Олег<br>Николаевич</h1>
+
+    <!-- Divider -->
+    <div class="divider">
+      <span class="divider-line"></span>
+      <span class="divider-diamond"></span>
+      <span class="divider-line"></span>
+    </div>
+
+    <!-- Specialization -->
+    <p class="spec">МЛМ Маркетинг</p>
+
+    <!-- Tags -->
+    <div class="tags">
+      <span class="tag">Сетевой бизнес</span>
+      <span class="tag">Партнёрство</span>
+      <span class="tag">Рост команды</span>
+    </div>
+
+    <!-- Social icons -->
+    <div class="socials">
+
+      <!-- Telegram -->
+      <a class="social-btn" href="https://t.me/interactego" target="_blank" rel="noopener" title="Telegram">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+        </svg>
+      </a>
+
+      <!-- VK -->
+      <a class="social-btn" href="#" title="ВКонтакте">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.408 0 15.684 0zm3.692 17.123h-1.744c-.66 0-.864-.525-2.05-1.727-1.033-1-1.49-1.135-1.744-1.135-.356 0-.458.102-.458.593v1.575c0 .424-.135.677-1.253.677-1.845 0-3.896-1.118-5.335-3.202C4.624 10.857 4.03 8.57 4.03 8.096c0-.254.102-.491.593-.491h1.744c.44 0 .61.203.78.677.863 2.49 2.303 4.675 2.896 4.675.22 0 .322-.102.322-.66V9.721c-.068-1.186-.695-1.287-.695-1.71 0-.204.17-.407.44-.407h2.744c.373 0 .508.203.508.643v3.473c0 .372.17.508.271.508.22 0 .407-.136.813-.542 1.254-1.406 2.151-3.574 2.151-3.574.119-.254.322-.491.762-.491h1.744c.525 0 .643.27.525.643-.22 1.017-2.354 4.031-2.354 4.031-.186.305-.254.44 0 .78.186.254.796.779 1.203 1.253.745.847 1.32 1.558 1.473 2.05.17.491-.085.745-.576.745z"/>
+        </svg>
+      </a>
+
+      <!-- WhatsApp -->
+      <a class="social-btn" href="#" title="WhatsApp">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+        </svg>
+      </a>
+
+      <!-- Instagram -->
+      <a class="social-btn" href="#" title="Instagram">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+        </svg>
+      </a>
+
+    </div>
+
+    <!-- CTA button -->
+    <div class="cta-wrap">
+      <a class="cta" href="https://t.me/interactego" target="_blank" rel="noopener">
+        <span class="cta-pulse"></span>
+        <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        Написать мне
+      </a>
+    </div>
+
+    <p class="footer-note">© 2025 &nbsp;·&nbsp; Громов Олег Николаевич &nbsp;·&nbsp; МЛМ Маркетинг</p>
+
+  </div>
+</div>
+</body>
+</html>
