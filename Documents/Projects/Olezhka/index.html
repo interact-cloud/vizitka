@@ -1524,7 +1524,7 @@ document.querySelectorAll('[data-target]').forEach(el => countObserver.observe(e
 // ===== FAQ accordion =====
 document.querySelectorAll('.faq-item').forEach(item => {
   const toggle = () => item.classList.toggle('open');
-  item.querySelector('.faq-q').addEventListener('click', toggle);
+  item.addEventListener('click', toggle);
   item.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
@@ -1594,7 +1594,8 @@ const updateParallax = () => {
 };
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-if (!reduceMotion) {
+const isMobile = window.matchMedia('(max-width: 900px)').matches;
+if (!reduceMotion && !isMobile) {
   window.addEventListener('scroll', () => {
     if (!ticking) {
       requestAnimationFrame(updateParallax);
