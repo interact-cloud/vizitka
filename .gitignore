@@ -1,0 +1,10 @@
+# Ignore everything
+*
+
+# Except the Projects folder
+!Documents/
+!Documents/Projects/
+!Documents/Projects/**
+
+# Olezhka живёт в собственном репо: github.com/interact-cloud/olezhka-landing
+Documents/Projects/Olezhka/
