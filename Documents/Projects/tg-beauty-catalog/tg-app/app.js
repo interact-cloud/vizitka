@@ -166,8 +166,8 @@ function resetTo(screen) {
   render(screen);
 }
 
-// Слайд-переход: вперёд — новый въезжает справа, текущий уходит влево.
-// Назад — наоборот. reset — мгновенно (для возврата на главную с экрана успеха).
+// Слайд-переход: позиция полностью управляется классами .active и .behind в CSS.
+// Никаких инлайн-стилей — иначе они перебивают классы по специфичности.
 function transition(from, to, direction) {
   const $from = document.querySelector(`[data-screen="${from}"]`);
   const $to   = document.querySelector(`[data-screen="${to}"]`);
@@ -179,40 +179,15 @@ function transition(from, to, direction) {
     return;
   }
 
-  if (direction === 'forward') {
-    // Стартуем новый экран справа
-    $to.style.transition = 'none';
-    $to.style.transform = 'translateX(100%)';
-    $to.classList.remove('behind');
-    // Форсим reflow, потом запускаем анимацию
-    void $to.offsetWidth;
-    $to.style.transition = '';
-    $to.classList.add('active');
-    if ($from) {
-      $from.classList.remove('active');
-      $from.classList.add('behind');
-    }
-  } else {
-    // back: текущий уезжает направо, предыдущий выезжает из behind
-    if ($from) {
-      $from.classList.remove('active');
-      $from.style.transition = '';
-      // .behind не ставим — экран должен уйти за пределы (translateX 100%)
-      // По CSS неактивные screen имеют translateX(100%) — этого достаточно
-    }
-    $to.classList.remove('behind');
-    $to.classList.add('active');
+  // Вперёд: новый въезжает (.active), текущий уходит за левый край (.behind)
+  // Назад:  предыдущий выезжает (.active), текущий уходит вправо (классы сняты)
+  $to.classList.remove('behind');
+  $to.classList.add('active');
+  if ($from) {
+    $from.classList.remove('active');
+    if (direction === 'forward') $from.classList.add('behind');
+    else $from.classList.remove('behind');
   }
-
-  // Очистка стилей после анимации, чтобы не накапливались inline-стили
-  setTimeout(() => {
-    document.querySelectorAll('.screen').forEach(s => {
-      if (!s.classList.contains('active') && !s.classList.contains('behind')) {
-        s.style.transform = '';
-        s.style.transition = '';
-      }
-    });
-  }, 320);
 }
 
 // Меняем верхнюю панель, BackButton и контент экрана
