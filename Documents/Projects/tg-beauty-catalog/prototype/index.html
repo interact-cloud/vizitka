@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#080b12">
+  <title>Алина Громова · Запись</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>html,body{background:#080b12;color:#e8e4dc;}</style>
+</head>
+<body>
+
+  <!-- SVG defs: gradient placeholders -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="g-master" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#1a1f33"/>
+        <stop offset="50%" stop-color="#3a2e1a"/>
+        <stop offset="100%" stop-color="#5a4520"/>
+      </linearGradient>
+      <linearGradient id="g-s1" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#c9a84c"/>
+        <stop offset="100%" stop-color="#f0d080"/>
+      </linearGradient>
+      <linearGradient id="g-s2" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#38c8c0"/>
+        <stop offset="100%" stop-color="#5fd9d2"/>
+      </linearGradient>
+      <linearGradient id="g-s3" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#8b6f3a"/>
+        <stop offset="100%" stop-color="#c9a84c"/>
+      </linearGradient>
+      <linearGradient id="g-s4" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#7a8090"/>
+        <stop offset="100%" stop-color="#a8aebd"/>
+      </linearGradient>
+      <linearGradient id="g-s5" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#f0d080"/>
+        <stop offset="100%" stop-color="#fce4a8"/>
+      </linearGradient>
+      <linearGradient id="g-s6" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#c9a84c"/>
+        <stop offset="100%" stop-color="#38c8c0"/>
+      </linearGradient>
+      <linearGradient id="g-manicure" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#c9a84c"/>
+        <stop offset="100%" stop-color="#5a4520"/>
+      </linearGradient>
+      <linearGradient id="g-pedicure" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#8b6f3a"/>
+        <stop offset="100%" stop-color="#1a1f33"/>
+      </linearGradient>
+      <linearGradient id="g-care" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#38c8c0"/>
+        <stop offset="100%" stop-color="#0e1220"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- Top bar (BackButton emulator) -->
+  <header class="topbar" id="topbar">
+    <button class="back-btn" id="backBtn" aria-label="Назад" hidden>←</button>
+    <div class="topbar-title" id="topbarTitle"></div>
+  </header>
+
+  <!-- ============ Screen 1: Home ============ -->
+  <section class="screen no-mainbtn active" data-screen="home">
+    <div class="hero">
+      <svg class="hero-img" viewBox="0 0 400 600" preserveAspectRatio="xMidYMid slice">
+        <rect width="400" height="600" fill="url(#g-master)"/>
+        <circle cx="200" cy="220" r="80" fill="#0e1220" opacity="0.6"/>
+        <text x="200" y="240" text-anchor="middle" font-family="Cormorant Garamond" font-size="68" fill="#c9a84c" opacity="0.7">АГ</text>
+      </svg>
+      <div class="hero-content">
+        <div class="hero-greet" id="greeting">Привет, Анна</div>
+        <div class="hero-name">Алина Громова</div>
+        <div class="hero-spec">Маникюр · педикюр · уход</div>
+        <div class="hero-stats">
+          <span><b style="color:var(--text)">312</b> записей</span>
+          <span class="dot"></span>
+          <span><span class="star">★</span> 4.9</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="home-body">
+      <div class="section-title">Категории</div>
+      <div class="tile-row">
+        <div class="tile" data-category="manicure">
+          <svg class="tile-bg" viewBox="0 0 100 120" preserveAspectRatio="xMidYMid slice">
+            <rect width="100" height="120" fill="url(#g-manicure)"/>
+          </svg>
+          <div class="tile-name">Маникюр</div>
+        </div>
+        <div class="tile" data-category="pedicure">
+          <svg class="tile-bg" viewBox="0 0 100 120" preserveAspectRatio="xMidYMid slice">
+            <rect width="100" height="120" fill="url(#g-pedicure)"/>
+          </svg>
+          <div class="tile-name">Педикюр</div>
+        </div>
+        <div class="tile" data-category="care">
+          <svg class="tile-bg" viewBox="0 0 100 120" preserveAspectRatio="xMidYMid slice">
+            <rect width="100" height="120" fill="url(#g-care)"/>
+          </svg>
+          <div class="tile-name">Уход</div>
+        </div>
+      </div>
+
+      <button class="main-btn" data-action="go-catalog" style="position:relative;left:0;bottom:0;transform:none;width:100%;margin-bottom:16px">
+        Смотреть все услуги
+      </button>
+
+      <div class="home-links">
+        <a data-action="go-bookings">Мои записи</a>
+        <span class="sep">·</span>
+        <a data-action="go-about">О мастере</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Screen 2: Catalog ============ -->
+  <section class="screen no-mainbtn" data-screen="catalog">
+    <div class="chips" id="catChips"></div>
+    <div class="service-list" id="serviceList"></div>
+  </section>
+
+  <!-- ============ Screen 3: Service detail ============ -->
+  <section class="screen" data-screen="service">
+    <div class="service-hero" id="serviceHero"></div>
+    <div class="service-body">
+      <h1 class="service-title" id="serviceTitle"></h1>
+      <div class="service-meta-row" id="serviceMeta"></div>
+      <p class="service-desc" id="serviceDesc"></p>
+      <div class="includes-title">Что входит</div>
+      <ul class="includes-list" id="serviceIncludes"></ul>
+      <div class="social-proof" id="serviceProof"></div>
+    </div>
+  </section>
+
+  <!-- ============ Screen 4: Calendar ============ -->
+  <section class="screen" data-screen="calendar">
+    <div class="cal-summary" id="calSummary"></div>
+    <div class="days-strip" id="daysStrip"></div>
+    <div class="slots-title">Свободное время</div>
+    <div id="slotsArea"></div>
+  </section>
+
+  <!-- ============ Screen 5: Confirm ============ -->
+  <section class="screen" data-screen="confirm">
+    <div class="confirm-body">
+      <div class="summary-card">
+        <div class="summary-service" id="confirmService"></div>
+        <div class="summary-when" id="confirmWhen"></div>
+        <div class="summary-duration" id="confirmDuration"></div>
+        <div class="summary-price" id="confirmPrice"></div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Имя</div>
+        <input type="text" id="confirmName" value="Анна">
+      </div>
+
+      <div id="contactArea">
+        <button class="contact-btn" id="contactBtn">
+          <span>📞</span>
+          <span>Поделиться номером</span>
+        </button>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Комментарий (необязательно)</div>
+        <textarea id="confirmComment" placeholder="Если есть пожелания"></textarea>
+      </div>
+
+      <div class="fineprint">Оплата на месте. Мастер подтвердит запись в течение часа.</div>
+    </div>
+  </section>
+
+  <!-- ============ Screen 6: Success ============ -->
+  <section class="screen no-mainbtn" data-screen="success">
+    <div class="success-body">
+      <div class="success-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#0b0f1a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <div class="success-title">Готово</div>
+      <div class="success-sub" id="successSub"></div>
+
+      <div class="success-card" id="successCard"></div>
+
+      <div class="success-note">Напомню за день до визита</div>
+
+      <button class="main-btn" data-action="go-home" style="position:relative;left:0;bottom:0;transform:none;width:100%;">
+        На главную
+      </button>
+      <a class="success-link" data-action="go-bookings">Мои записи →</a>
+    </div>
+  </section>
+
+  <!-- ============ Screen 7: My bookings ============ -->
+  <section class="screen no-mainbtn" data-screen="bookings">
+    <div class="tabs">
+      <button class="tab active" data-tab="active">Активные</button>
+      <button class="tab" data-tab="past">Прошедшие</button>
+    </div>
+    <div class="booking-list" id="bookingList"></div>
+  </section>
+
+  <!-- ============ Screen 8: About master ============ -->
+  <section class="screen" data-screen="about">
+    <div class="about-hero">
+      <svg class="hero-img" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice">
+        <rect width="400" height="280" fill="url(#g-master)"/>
+        <circle cx="200" cy="120" r="60" fill="#0e1220" opacity="0.6"/>
+        <text x="200" y="138" text-anchor="middle" font-family="Cormorant Garamond" font-size="52" fill="#c9a84c" opacity="0.7">АГ</text>
+      </svg>
+    </div>
+    <div class="about-body">
+      <div class="about-name">Алина Громова</div>
+      <div class="about-exp">10 лет в бьюти</div>
+      <p class="about-bio">
+        Делаю маникюр, который держится 4 недели. Работаю только с гипоаллергенными материалами. Принимаю в студии на Никольской.
+      </p>
+
+      <div class="contact-card" data-action="open-map">
+        <div class="contact-ico">📍</div>
+        <div>
+          <div class="contact-text">Москва, Никольская, 10</div>
+          <div class="contact-sub">Открыть на карте</div>
+        </div>
+      </div>
+
+      <div class="contact-card" data-action="open-tg">
+        <div class="contact-ico">✈</div>
+        <div>
+          <div class="contact-text">@interactego</div>
+          <div class="contact-sub">Telegram-канал мастера</div>
+        </div>
+      </div>
+
+      <div class="contact-card">
+        <div class="contact-ico">🕙</div>
+        <div>
+          <div class="contact-text">Пн–Сб · 10:00–20:00</div>
+          <div class="contact-sub">Воскресенье — выходной</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Main button (global emulator) ============ -->
+  <button class="main-btn" id="mainBtn" hidden></button>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
