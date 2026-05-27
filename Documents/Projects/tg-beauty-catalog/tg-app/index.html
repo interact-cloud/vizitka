@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>Алина Громова · Запись</title>
+
+  <!-- Telegram Web App SDK — данные пользователя, тема, MainButton, BackButton -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- SVG-плейсхолдеры: градиенты для героев и аватара -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="g-master" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#FFB6C1"/>
+        <stop offset="50%" stop-color="#FF9EB5"/>
+        <stop offset="100%" stop-color="#C44569"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- Верхняя панель (рисуем сами; в Telegram она поверх системной) -->
+  <header class="topbar" id="topbar">
+    <button class="back-btn" id="backBtn" aria-label="Назад" hidden>
+      <svg viewBox="0 0 12 20" fill="none">
+        <path d="M10 2L2 10L10 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Назад</span>
+    </button>
+    <div class="topbar-title" id="topbarTitle"></div>
+  </header>
+
+  <!-- Корневой контейнер с экранами; экраны переключаются слайдом -->
+  <div class="app" id="app">
+
+    <!-- ============ Экран 1: Главная ============ -->
+    <section class="screen no-mainbtn no-topbar active" data-screen="home">
+      <div class="hero">
+        <svg viewBox="0 0 400 600" preserveAspectRatio="xMidYMid slice">
+          <rect width="400" height="600" fill="url(#g-master)"/>
+          <circle cx="200" cy="210" r="76" fill="rgba(255,255,255,0.18)"/>
+          <text x="200" y="232" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="56" fill="#ffffff" opacity="0.95" font-weight="600">АГ</text>
+        </svg>
+        <div class="hero-content">
+          <div class="hero-greet" id="greeting">Привет, Анна</div>
+          <div class="hero-name">Алина Громова</div>
+          <div class="hero-spec">Маникюр · педикюр · уход</div>
+          <div class="hero-stats">
+            <span><b>312</b> записей</span>
+            <span class="dot"></span>
+            <span><span class="star">★</span> 4.9</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="home-body">
+        <div class="section-label" style="padding-left:4px;margin-top:0">Категории</div>
+        <div class="tile-row" id="homeTiles">
+          <!-- Заполняется JS-ом из CATEGORIES -->
+        </div>
+
+        <div class="section-label" style="padding-left:4px">Быстрый доступ</div>
+        <div class="list-group" style="margin-bottom:24px">
+          <div class="list-item" data-action="go-catalog">
+            <span style="font-size:20px">✨</span>
+            <span>Все услуги</span>
+            <span class="chevron">›</span>
+          </div>
+          <div class="list-item" data-action="go-bookings">
+            <span style="font-size:20px">📅</span>
+            <span>Мои записи</span>
+            <span class="chevron">›</span>
+          </div>
+          <div class="list-item" data-action="go-about">
+            <span style="font-size:20px">👋</span>
+            <span>О мастере</span>
+            <span class="chevron">›</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Экран 2: Каталог ============ -->
+    <section class="screen no-mainbtn" data-screen="catalog">
+      <div class="chips" id="catChips"></div>
+      <div class="section">
+        <div class="list-group" id="serviceList"></div>
+      </div>
+    </section>
+
+    <!-- ============ Экран 3: Карточка услуги ============ -->
+    <section class="screen no-topbar" data-screen="service">
+      <div class="service-hero" id="serviceHero"></div>
+      <div class="service-body">
+        <h1 class="service-title" id="serviceTitle"></h1>
+        <div class="service-meta-row" id="serviceMeta"></div>
+        <p class="service-desc" id="serviceDesc"></p>
+        <div class="section-label" style="padding-left:4px;margin-top:0">Что входит</div>
+        <ul class="includes-list" id="serviceIncludes"></ul>
+        <div class="proof" id="serviceProof"></div>
+      </div>
+    </section>
+
+    <!-- ============ Экран 4: Календарь ============ -->
+    <section class="screen" data-screen="calendar">
+      <div class="cal-summary" id="calSummary"></div>
+      <div class="days-strip" id="daysStrip"></div>
+      <div class="slots-title">Свободное время</div>
+      <div id="slotsArea"></div>
+    </section>
+
+    <!-- ============ Экран 5: Подтверждение ============ -->
+    <section class="screen" data-screen="confirm">
+      <div class="confirm-body">
+        <div class="summary-card">
+          <div class="summary-service" id="confirmService"></div>
+          <div class="summary-when" id="confirmWhen"></div>
+          <div class="summary-duration" id="confirmDuration"></div>
+          <div class="summary-price" id="confirmPrice"></div>
+        </div>
+
+        <div class="field">
+          <div class="field-label">Имя</div>
+          <input type="text" id="confirmName" value="Анна">
+        </div>
+
+        <div id="contactArea">
+          <!-- Заполняется JS-ом: или contact-btn, или contact-ok -->
+        </div>
+
+        <div class="field">
+          <div class="field-label">Комментарий (необязательно)</div>
+          <textarea id="confirmComment" placeholder="Если есть пожелания"></textarea>
+        </div>
+
+        <div class="fineprint">Оплата на месте. Мастер подтвердит запись в течение часа.</div>
+      </div>
+    </section>
+
+    <!-- ============ Экран 6: Успех ============ -->
+    <section class="screen no-mainbtn no-topbar" data-screen="success">
+      <div class="success-body">
+        <div class="success-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <div class="success-title">Готово!</div>
+        <div class="success-sub" id="successSub"></div>
+
+        <div class="success-card" id="successCard"></div>
+
+        <div class="success-note">Напомню за день до визита</div>
+
+        <button class="main-btn" data-action="go-home" style="position:relative;left:0;right:0;bottom:0;width:100%;max-width:none">
+          На главную
+        </button>
+        <button class="link-btn" data-action="go-bookings">Мои записи →</button>
+      </div>
+    </section>
+
+    <!-- ============ Экран 7: Мои записи ============ -->
+    <section class="screen no-mainbtn" data-screen="bookings">
+      <div class="tabs">
+        <button class="tab active" data-tab="active">Активные</button>
+        <button class="tab" data-tab="past">Прошедшие</button>
+      </div>
+      <div id="bookingList"></div>
+    </section>
+
+    <!-- ============ Экран 8: О мастере ============ -->
+    <section class="screen no-topbar" data-screen="about">
+      <div class="about-hero">
+        <svg viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice">
+          <rect width="400" height="280" fill="url(#g-master)"/>
+          <circle cx="200" cy="120" r="60" fill="rgba(255,255,255,0.18)"/>
+          <text x="200" y="138" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="44" fill="#ffffff" opacity="0.95" font-weight="600">АГ</text>
+        </svg>
+      </div>
+      <div class="about-body">
+        <div class="about-name">Алина Громова</div>
+        <div class="about-exp">10 лет в бьюти</div>
+        <p class="about-bio" id="aboutBio"></p>
+
+        <div class="section-label" style="padding-left:4px;margin-top:0">Контакты</div>
+        <div class="list-group" style="margin-bottom:24px">
+          <div class="list-item" data-action="open-map">
+            <div class="contact-ico">📍</div>
+            <div>
+              <div class="contact-text" id="aboutAddress"></div>
+              <div class="contact-sub">Открыть на карте</div>
+            </div>
+            <span class="chevron">›</span>
+          </div>
+          <div class="list-item" data-action="open-tg">
+            <div class="contact-ico">✈</div>
+            <div>
+              <div class="contact-text" id="aboutTg"></div>
+              <div class="contact-sub">Telegram-канал мастера</div>
+            </div>
+            <span class="chevron">›</span>
+          </div>
+          <div class="list-item" style="cursor:default">
+            <div class="contact-ico">🕙</div>
+            <div>
+              <div class="contact-text" id="aboutHours"></div>
+              <div class="contact-sub">Воскресенье — выходной</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Главная кнопка снизу (эмуляция MainButton, в Telegram заменится на нативную) -->
+  <button class="main-btn" id="mainBtn" hidden></button>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
