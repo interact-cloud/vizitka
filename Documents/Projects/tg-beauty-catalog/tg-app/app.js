@@ -5,6 +5,9 @@
 
 // Telegram WebApp — реальный объект, если открыты в TG
 const tg = window.Telegram && window.Telegram.WebApp;
+// SDK создаёт объект и в обычном браузере, поэтому отличаем по platform:
+// внутри Telegram это 'ios'/'android'/'tdesktop'/..., снаружи — 'unknown' или пусто.
+const inTelegram = !!(tg && tg.platform && tg.platform !== 'unknown');
 
 // ============ Адаптер вокруг Telegram API + fallback ============
 const TG = {
@@ -78,7 +81,7 @@ const topbarTitle = document.getElementById('topbarTitle');
 
 const MainButton = {
   show(text, onClick, opts = {}) {
-    if (tg?.MainButton) {
+    if (inTelegram && tg?.MainButton) {
       tg.MainButton.setText(text.toUpperCase());
       tg.MainButton.show();
       if (opts.disabled) tg.MainButton.disable(); else tg.MainButton.enable();
@@ -99,12 +102,12 @@ const MainButton = {
     }
   },
   hide() {
-    if (tg?.MainButton) tg.MainButton.hide();
+    if (inTelegram && tg?.MainButton) tg.MainButton.hide();
     mainBtnEl.hidden = true;
     mainBtnEl.onclick = null;
   },
   progress(on) {
-    if (tg?.MainButton) {
+    if (inTelegram && tg?.MainButton) {
       if (on) tg.MainButton.showProgress(); else tg.MainButton.hideProgress();
     }
     mainBtnEl.classList.toggle('progress', on);
@@ -114,7 +117,7 @@ const MainButton = {
 const BackButton = {
   show(onClick) {
     this._handler = () => { TG.haptic('light'); onClick(); };
-    if (tg?.BackButton) {
+    if (inTelegram && tg?.BackButton) {
       tg.BackButton.show();
       tg.BackButton.offClick(this._lastHandler);
       tg.BackButton.onClick(this._handler);
@@ -126,7 +129,7 @@ const BackButton = {
     }
   },
   hide() {
-    if (tg?.BackButton) tg.BackButton.hide();
+    if (inTelegram && tg?.BackButton) tg.BackButton.hide();
     backBtnEl.hidden = true;
     backBtnEl.onclick = null;
   },
@@ -236,6 +239,27 @@ function renderHome() {
     };
     tiles.appendChild(t);
   });
+
+  // Отзывы — короткий список под "Быстрый доступ"
+  const reviewsWrap = document.getElementById('homeReviews');
+  reviewsWrap.innerHTML = '';
+  REVIEWS.forEach(r => {
+    const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+    const item = document.createElement('div');
+    item.className = 'review-item';
+    item.innerHTML = `
+      <div class="review-avatar">${r.avatar}</div>
+      <div class="review-body">
+        <div class="review-head">
+          <span class="review-name">${r.name}</span>
+          <span class="review-stars">${stars}</span>
+        </div>
+        <div class="review-text">${r.text}</div>
+        <div class="review-service">— ${r.service}</div>
+      </div>
+    `;
+    reviewsWrap.appendChild(item);
+  });
 }
 
 // ============ Каталог ============
@@ -279,16 +303,16 @@ function renderCatalog() {
   });
 }
 
-// SVG-плейсхолдер квадратик для услуги
-function swatchSvg(s, size = 56) {
+// Цветной квадратик с emoji вместо фото-заглушки
+function swatchSvg(s, size = 64) {
   const id = `gs-${s.id}`;
-  return `<svg width="${size}" height="${size}" viewBox="0 0 56 56">
+  return `<svg width="${size}" height="${size}" viewBox="0 0 64 64">
     <defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="${s.swatch[0]}"/>
       <stop offset="100%" stop-color="${s.swatch[1]}"/>
     </linearGradient></defs>
-    <rect width="56" height="56" fill="url(#${id})"/>
-    <text x="28" y="36" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="22" font-weight="700" fill="rgba(255,255,255,0.7)">${s.name[0]}</text>
+    <rect width="64" height="64" fill="url(#${id})"/>
+    <text x="32" y="44" text-anchor="middle" font-size="32">${s.emoji}</text>
   </svg>`;
 }
 
@@ -304,7 +328,7 @@ function renderService() {
         <stop offset="100%" stop-color="${s.swatch[1]}"/>
       </linearGradient></defs>
       <rect width="400" height="220" fill="url(#hero-${s.id})"/>
-      <text x="200" y="135" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="120" font-weight="800" fill="rgba(255,255,255,0.25)">${s.name[0]}</text>
+      <text x="200" y="152" text-anchor="middle" font-size="110">${s.emoji}</text>
     </svg>
   `;
   document.getElementById('serviceTitle').textContent = s.name;

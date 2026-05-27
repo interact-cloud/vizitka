@@ -11,6 +11,7 @@ const MASTER = {
   telegram: 'https://t.me/interactego',
   telegramHandle: '@interactego',
   stats: { bookings: 312, rating: 4.9 },
+  emoji: '💅',
 };
 
 // Категории каталога — порядок и id используются на главной и в фильтре
@@ -31,6 +32,7 @@ const SERVICES = [
     includes: ['Снятие старого покрытия', 'Аппаратная обработка', 'Покрытие гель-лаком', 'Уход за кутикулой'],
     weekBookings: 12,
     swatch: ['#FF9EB5', '#FFC2D1'],
+    emoji: '💅',
   },
   {
     id: 's2', category: 'manicure',
@@ -40,6 +42,7 @@ const SERVICES = [
     includes: ['Эскиз по референсу', 'Дизайн на 2–10 ногтях', 'Закрепление топом'],
     weekBookings: 7,
     swatch: ['#8B5CF6', '#C4B5FD'],
+    emoji: '✨',
   },
   {
     id: 's3', category: 'pedicure',
@@ -49,6 +52,7 @@ const SERVICES = [
     includes: ['Распаривание', 'Обработка стоп', 'Покрытие гель-лаком', 'Массаж стоп'],
     weekBookings: 5,
     swatch: ['#3B82F6', '#93C5FD'],
+    emoji: '👣',
   },
   {
     id: 's4', category: 'pedicure',
@@ -58,6 +62,7 @@ const SERVICES = [
     includes: ['Обработка кутикулы', 'Опил формы', 'Покрытие гель-лаком'],
     weekBookings: 3,
     swatch: ['#06B6D4', '#67E8F9'],
+    emoji: '🦶',
   },
   {
     id: 's5', category: 'care',
@@ -67,6 +72,7 @@ const SERVICES = [
     includes: ['Скраб', 'Парафиновая ванна', 'Массаж рук', 'Питательный крем'],
     weekBookings: 2,
     swatch: ['#10B981', '#6EE7B7'],
+    emoji: '🕯️',
   },
   {
     id: 's6', category: 'care',
@@ -76,6 +82,26 @@ const SERVICES = [
     includes: ['Скраб', 'Маска', 'Парафин', 'Массаж'],
     weekBookings: 1,
     swatch: ['#F59E0B', '#FCD34D'],
+    emoji: '🌸',
+  },
+];
+
+// Отзывы клиентов на главной. Меняй текст/имена здесь.
+const REVIEWS = [
+  {
+    name: 'Анна К.', avatar: '🌸', rating: 5,
+    service: 'Маникюр с покрытием',
+    text: 'Лучший мастер, который у меня был. Покрытие реально держится 4 недели без сколов.',
+  },
+  {
+    name: 'Мария В.', avatar: '✨', rating: 5,
+    service: 'Дизайн ногтей',
+    text: 'Сделала ровно как на референсе, даже лучше. В студии чисто, всё стерильно.',
+  },
+  {
+    name: 'Ольга П.', avatar: '💖', rating: 5,
+    service: 'Педикюр',
+    text: 'Хожу уже год — аккуратно, быстро, без боли. Рекомендую всем подругам.',
   },
 ];
 
