@@ -10,6 +10,7 @@ const MASTER = {
   hours: 'Пн–Сб · 10:00–20:00',
   telegram: 'https://t.me/interactego',
   telegramHandle: '@interactego',
+  botUsername: 'Beauty_90master_bot',
   stats: { bookings: 312, rating: 4.9 },
   emoji: '💅',
 };

@@ -946,3 +946,110 @@ body {
   from { opacity: 0; transform: translateX(-50%) translateY(8px); }
   to   { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
+
+/* ============ Оффер-модалка (показ один раз при первом запуске) ============ */
+.offer-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+  padding: 20px;
+  animation: offerOverlayIn .25s ease;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.offer-modal[hidden] { display: none; }
+
+.offer-card {
+  width: 100%;
+  max-width: 360px;
+  background: var(--tg-theme-section-bg-color);
+  color: var(--tg-theme-text-color);
+  border-radius: 20px;
+  padding: 28px 24px 20px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  animation: offerCardIn .3s var(--ease);
+}
+
+.offer-emoji {
+  font-size: 64px;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.offer-title {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 10px;
+}
+
+.offer-sub {
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--tg-theme-hint-color);
+  margin-bottom: 18px;
+}
+
+.offer-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 22px;
+  text-align: left;
+}
+.offer-bullets li {
+  position: relative;
+  padding: 8px 0 8px 26px;
+  font-size: 14.5px;
+  line-height: 1.35;
+}
+.offer-bullets li::before {
+  content: '✓';
+  position: absolute;
+  left: 4px;
+  top: 8px;
+  color: var(--tg-theme-link-color);
+  font-weight: 700;
+}
+
+.offer-cta {
+  width: 100%;
+  min-height: 52px;
+  background: var(--tg-theme-button-color);
+  color: var(--tg-theme-button-text-color);
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity .15s, transform .1s;
+}
+.offer-cta:active { opacity: 0.85; transform: scale(0.98); }
+
+.offer-skip {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 12px;
+  background: none;
+  border: none;
+  color: var(--tg-theme-hint-color);
+  font-size: 15px;
+  font-family: inherit;
+  cursor: pointer;
+}
+.offer-skip:active { opacity: 0.6; }
+
+@keyframes offerOverlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes offerCardIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}

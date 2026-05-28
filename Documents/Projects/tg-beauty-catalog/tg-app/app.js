@@ -610,3 +610,31 @@ document.addEventListener('scroll', (e) => {
 
 // Стартовый рендер главной
 render('home');
+
+// ============ Оффер-модалка: показ один раз при первом открытии ============
+const OFFER_SEEN_KEY = 'beauty_offer_seen_v1';
+
+function maybeShowOffer() {
+  if (localStorage.getItem(OFFER_SEEN_KEY)) return;
+  const modal = document.getElementById('offerModal');
+  if (!modal) return;
+  modal.hidden = false;
+
+  const close = () => {
+    localStorage.setItem(OFFER_SEEN_KEY, '1');
+    modal.hidden = true;
+  };
+
+  document.getElementById('offerCta').onclick = () => {
+    TG.haptic('light');
+    close();
+    const url = `https://t.me/${MASTER.botUsername}?start=from_app`;
+    TG.openTelegramLink(url);
+  };
+  document.getElementById('offerSkip').onclick = () => {
+    TG.haptic('select');
+    close();
+  };
+}
+
+maybeShowOffer();

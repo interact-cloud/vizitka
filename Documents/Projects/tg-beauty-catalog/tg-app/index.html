@@ -224,6 +224,22 @@
   <!-- Главная кнопка снизу (эмуляция MainButton, в Telegram заменится на нативную) -->
   <button class="main-btn" id="mainBtn" hidden></button>
 
+  <!-- Оффер-модалка: показывается один раз при первом открытии -->
+  <div class="offer-modal" id="offerModal" hidden>
+    <div class="offer-card">
+      <div class="offer-emoji">🎁</div>
+      <h2 class="offer-title">Скидка 15% на первую запись</h2>
+      <p class="offer-sub">Подпишитесь на бота — получите промокод в личное сообщение</p>
+      <ul class="offer-bullets">
+        <li>Напомним о записи за день</li>
+        <li>Первыми узнаёте о свободных окошках</li>
+        <li>Эксклюзивные акции для подписчиков</li>
+      </ul>
+      <button class="offer-cta" id="offerCta">Получить скидку 15%</button>
+      <button class="offer-skip" id="offerSkip">Пропустить</button>
+    </div>
+  </div>
+
   <script src="data.js"></script>
   <script src="app.js"></script>
 </body>
