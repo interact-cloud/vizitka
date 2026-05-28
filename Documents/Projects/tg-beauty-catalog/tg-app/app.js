@@ -599,6 +599,13 @@ document.addEventListener('click', (e) => {
   if (action === 'go-home')     { TG.haptic('light'); resetTo('home'); }
   if (action === 'open-map')    { TG.haptic('light'); TG.openLink('https://yandex.ru/maps/?text=' + encodeURIComponent(MASTER.address)); }
   if (action === 'open-tg')     { TG.haptic('light'); TG.openTelegramLink(MASTER.telegram); }
+  if (action === 'share-bot')   {
+    TG.haptic('light');
+    const botUrl = `https://t.me/${MASTER.botUsername}`;
+    const text = `Записываюсь к мастеру маникюра через бота — попробуй, удобно: ${botUrl}`;
+    const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(botUrl)}&text=${encodeURIComponent(text)}`;
+    TG.openTelegramLink(shareUrl);
+  }
 });
 
 // Подкрашиваем границу верхней панели при скролле активного экрана
@@ -611,10 +618,12 @@ document.addEventListener('scroll', (e) => {
 // Стартовый рендер главной
 render('home');
 
-// ============ Оффер-модалка: показ один раз при первом открытии ============
-const OFFER_SEEN_KEY = 'beauty_offer_seen_v1';
+// ============ Онбординг и оффер: показ один раз при первом открытии ============
+// Сначала онбординг (приветствие + что можно), по "Начать" — сразу оффер скидки.
+const ONBOARD_SEEN_KEY = 'beauty_onboard_seen_v1';
+const OFFER_SEEN_KEY   = 'beauty_offer_seen_v1';
 
-function maybeShowOffer() {
+function showOffer() {
   if (localStorage.getItem(OFFER_SEEN_KEY)) return;
   const modal = document.getElementById('offerModal');
   if (!modal) return;
@@ -628,8 +637,7 @@ function maybeShowOffer() {
   document.getElementById('offerCta').onclick = () => {
     TG.haptic('light');
     close();
-    const url = `https://t.me/${MASTER.botUsername}?start=from_app`;
-    TG.openTelegramLink(url);
+    TG.openTelegramLink(`https://t.me/${MASTER.botUsername}?start=from_app`);
   };
   document.getElementById('offerSkip').onclick = () => {
     TG.haptic('select');
@@ -637,4 +645,22 @@ function maybeShowOffer() {
   };
 }
 
-maybeShowOffer();
+function showOnboarding() {
+  if (localStorage.getItem(ONBOARD_SEEN_KEY)) {
+    showOffer();
+    return;
+  }
+  const modal = document.getElementById('onboardModal');
+  if (!modal) return;
+  document.getElementById('onboardTitle').textContent = `Привет, ${TG.user().first_name}!`;
+  modal.hidden = false;
+
+  document.getElementById('onboardCta').onclick = () => {
+    TG.haptic('light');
+    localStorage.setItem(ONBOARD_SEEN_KEY, '1');
+    modal.hidden = true;
+    showOffer();
+  };
+}
+
+showOnboarding();

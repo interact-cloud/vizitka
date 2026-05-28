@@ -81,6 +81,11 @@
             <span>О мастере</span>
             <span class="chevron">›</span>
           </div>
+          <div class="list-item" data-action="share-bot">
+            <span style="font-size:20px">💌</span>
+            <span>Поделиться с другом</span>
+            <span class="chevron">›</span>
+          </div>
         </div>
 
         <div class="section-label" style="padding-left:4px">Отзывы</div>
@@ -223,6 +228,21 @@
 
   <!-- Главная кнопка снизу (эмуляция MainButton, в Telegram заменится на нативную) -->
   <button class="main-btn" id="mainBtn" hidden></button>
+
+  <!-- Онбординг: приветствие при самом первом открытии -->
+  <div class="offer-modal" id="onboardModal" hidden>
+    <div class="offer-card">
+      <div class="offer-emoji">👋</div>
+      <h2 class="offer-title" id="onboardTitle">Привет!</h2>
+      <p class="offer-sub">Это карманная запись к Алине Громовой. Вот что здесь можно:</p>
+      <ul class="offer-bullets">
+        <li>Посмотреть услуги мастера и цены</li>
+        <li>Записаться на удобный день и время</li>
+        <li>Получать напоминания за день до визита</li>
+      </ul>
+      <button class="offer-cta" id="onboardCta">Начать</button>
+    </div>
+  </div>
 
   <!-- Оффер-модалка: показывается один раз при первом открытии -->
   <div class="offer-modal" id="offerModal" hidden>
