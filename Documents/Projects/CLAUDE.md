@@ -101,8 +101,6 @@ Projects/
 ├── clients.html     🔲 планируется
 ├── blog/
 │   └── index.html   🔲 планируется
-├── Build-CRM.ps1
-├── CRM_База_MLM_*.xlsx
 ├── project.md
 └── CLAUDE.md        ← этот файл
 ```
@@ -111,5 +109,5 @@ Projects/
 
 ## Коротко о проекте
 
-Личный сайт и CRM Громова Олега Николаевича — MLM-предпринимателя, партнёра Siberian Wellness.
+Личный сайт Громова Олега Николаевича — MLM-предпринимателя, партнёра Siberian Wellness.
 Telegram: [@interactego](https://t.me/interactego)
