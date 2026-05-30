@@ -1,9 +1,17 @@
+Olezhka/
+tg-beauty-catalog/.env
+tg-beauty-catalog/tg-app/.vercel/
+
 # Сгенерированные CRM-базы (защита по 152-ФЗ — никогда не коммитить)
 CRM_База_MLM_*.xlsx
-
-# Папка с приватным wellness-проектом и клиентской CRM-базой — не публиковать
-my-Siberian Wellness-project/
-
-# Временные файлы Excel
 ~$*.xlsx
 *.tmp
+
+# wellness-проект: коммитим документацию бота (.md, .html),
+# но НЕ публикуем тяжёлое сырьё и чувствительное
+my-Siberian Wellness-project/RU_2026.pdf
+my-Siberian Wellness-project/price-ru-ru-base-all.pdf
+my-Siberian Wellness-project/price.txt
+my-Siberian Wellness-project/Build-CRM.ps1
+my-Siberian Wellness-project/pages/
+my-Siberian Wellness-project/poppler_dist/

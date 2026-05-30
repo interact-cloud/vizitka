@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Наставник 24/7 — карточки для бота</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #c9c2ea; --banner: #4f46a8; --banner2: #6a5fc4;
+      --card: #ffffff; --card-soft: #f3effb;
+      --violet: #6c5ce7; --violet-deep: #5b21b6; --teal: #1fb8ae; --teal-deep: #149a91;
+      --orange: #f29b3d; --orange-deep: #d97a1f;
+      --gold: #e6c089; --gold2: #f2dcb8; --gold-btn: #e7b063; --gold-btn2: #efc987;
+      --ink: #2d2a5a; --muted: #6b6790; --white: #ffffff;
+    }
+    html, body {
+      background: #e9e6f6;
+      color: var(--ink);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+    }
+    .page {
+      max-width: 1240px; margin: 0 auto; padding: 40px 20px 80px;
+    }
+    .page h1 {
+      font-weight: 800; font-size: 26px; color: var(--ink); text-align: center; margin-bottom: 6px;
+    }
+    .page .sub {
+      text-align: center; color: var(--muted); font-size: 14px; margin-bottom: 36px;
+    }
+    .grid {
+      display: flex; flex-wrap: wrap; gap: 48px; justify-content: center;
+    }
+    .item { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+
+    /* ---------- КАРТОЧКА 9:16 ---------- */
+    .card {
+      width: 540px; height: 960px; border-radius: 30px; overflow: hidden;
+      background: linear-gradient(180deg, #d7d1f0 0%, #c9c2ea 100%);
+      position: relative; box-shadow: 0 24px 60px rgba(60,50,130,.28);
+      display: flex; flex-direction: column;
+    }
+    /* баннер-шапка */
+    .banner {
+      background: linear-gradient(135deg, var(--banner) 0%, var(--banner2) 100%);
+      padding: 34px 38px 30px; position: relative; color: var(--white);
+      overflow: hidden;
+    }
+    .banner::after {
+      content: ""; position: absolute; right: -40px; top: -40px;
+      width: 200px; height: 200px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,.10), transparent 70%);
+    }
+    .badge {
+      display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .04em;
+      color: var(--gold2); border: 1.5px solid var(--gold); border-radius: 20px;
+      padding: 6px 16px; background: rgba(0,0,0,.18); margin-bottom: 18px;
+    }
+    .logo {
+      font-weight: 800; line-height: .92; letter-spacing: -.01em;
+      background: linear-gradient(180deg, var(--gold2), var(--gold));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .logo .big { display:block; font-size: 64px; }
+    .logo .sm  { display:block; font-size: 64px; }
+    .banner .tagline { margin-top: 14px; font-size: 18px; font-weight: 600; color: #efeaff; max-width: 320px; }
+
+    /* фирменная снежинка */
+    .snow { color: var(--white); }
+    .snow-badge {
+      position: absolute; right: 30px; top: 34px;
+      width: 96px; height: 96px; border-radius: 22px;
+      background: linear-gradient(145deg, var(--violet), var(--violet-deep));
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 10px 24px rgba(50,30,120,.4); color: #fff;
+    }
+    .snow-badge.teal { background: linear-gradient(145deg, #2bd0c6, var(--teal-deep)); }
+    .snow-badge.orange { background: linear-gradient(145deg, #f7b35e, var(--orange-deep)); }
+    .snow-badge .num { position:absolute; bottom:8px; right:12px; font-weight:800; font-size:18px; }
+
+    /* тело */
+    .body { flex: 1; padding: 30px 38px; display: flex; flex-direction: column; }
+
+    /* шаги */
+    .step { display: flex; gap: 18px; align-items: flex-start; padding: 14px 0; }
+    .step + .step { border-top: 1px solid rgba(90,70,160,.14); }
+    .step .n {
+      font-weight: 900; font-size: 46px; line-height: .9; min-width: 52px;
+      color: var(--gold-btn);
+    }
+    .step.teal .n { color: var(--teal); }
+    .step.violet .n { color: var(--violet); }
+    .step.orange .n { color: var(--orange); }
+    .step .txt b { display:block; font-weight: 800; font-size: 19px; text-transform: uppercase; letter-spacing:.02em; color: var(--ink); margin-bottom: 3px; }
+    .step .txt span { font-size: 15px; color: #4a4670; line-height: 1.35; }
+
+    /* нижняя плашка */
+    .footer {
+      margin: 0 38px 30px; border-radius: 18px; padding: 18px 22px; text-align: center;
+      background: linear-gradient(135deg, var(--gold-btn), var(--gold-btn2));
+      color: #4a3413; font-weight: 800; font-size: 17px;
+    }
+    .footer small { display:block; font-weight:600; font-size:13px; color:#5e4a25; margin-top:3px; }
+
+    /* приветствие */
+    .hello-body { text-align: center; padding: 40px 40px; flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center; }
+    .hello-snow { width: 140px; height: 140px; color: var(--violet); margin-bottom: 26px;
+      filter: drop-shadow(0 14px 26px rgba(108,92,231,.35)); }
+    .hello-body h2 { font-size: 34px; font-weight: 800; color: var(--ink); margin-bottom: 18px; }
+    .hello-body p { font-size: 17px; line-height: 1.5; color: #4a4670; max-width: 400px; }
+    .hello-body p b { color: var(--violet-deep); }
+
+    /* сетка наборов / сертификатов */
+    .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .tile {
+      background: var(--card); border-radius: 16px; padding: 16px; text-align: center;
+      box-shadow: 0 6px 16px rgba(70,50,140,.10);
+    }
+    .tile .cap { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing:.03em; }
+    .tile .old { font-size: 16px; color: #b3aecb; text-decoration: line-through; margin-top: 6px; }
+    .tile .price { font-size: 15px; color: var(--ink); font-weight: 600; }
+    .tile .price b { font-size: 22px; }
+    .tile .win { margin-top: 8px; font-size: 14px; font-weight: 800; color: var(--teal); }
+
+    /* сертификаты */
+    .cert { display:flex; align-items:center; gap:14px; background:var(--card); border-radius:16px; padding:14px 18px; box-shadow:0 6px 16px rgba(70,50,140,.10); }
+    .cert + .cert { margin-top: 12px; }
+    .cert .flakes { display:flex; align-items:center; gap:6px; min-width:118px; color:var(--violet); font-weight:800; font-size:18px; }
+    .cert .flakes svg { width: 22px; height: 22px; }
+    .cert .arrow { color:#bdb6da; font-weight:800; }
+    .cert .sum { margin-left:auto; font-weight:800; font-size:22px; color:var(--violet-deep); }
+    .cert.max { background: linear-gradient(135deg, var(--violet), var(--violet-deep)); }
+    .cert.max .flakes, .cert.max .sum, .cert.max .arrow { color:#fff; }
+
+    .hero-sum {
+      margin: 0 38px 22px; border-radius: 18px; padding: 16px 22px;
+      background: linear-gradient(135deg, var(--violet), var(--violet-deep)); color:#fff;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .hero-sum .lbl { font-size:14px; font-weight:600; opacity:.92; max-width:150px; }
+    .hero-sum .val { font-size:26px; font-weight:900; text-align:right; }
+    .hero-sum .val small { display:block; font-size:12px; font-weight:600; opacity:.9; }
+
+    .note { font-size: 13px; color: var(--muted); text-align:center; padding: 0 38px 14px; line-height:1.4; }
+
+  </style>
+</head>
+<body>
+
+<!-- фирменная снежинка SW (символ) -->
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="sw-snow" viewBox="0 0 100 100">
+    <g stroke="currentColor" stroke-width="4.5" stroke-linecap="round" fill="none">
+      <g id="sw-ray">
+        <line x1="50" y1="50" x2="50" y2="7"/>
+        <line x1="50" y1="20" x2="40" y2="12"/>
+        <line x1="50" y1="20" x2="60" y2="12"/>
+        <line x1="50" y1="33" x2="42" y2="26"/>
+        <line x1="50" y1="33" x2="58" y2="26"/>
+      </g>
+      <use href="#sw-ray" transform="rotate(60 50 50)"/>
+      <use href="#sw-ray" transform="rotate(120 50 50)"/>
+      <use href="#sw-ray" transform="rotate(180 50 50)"/>
+      <use href="#sw-ray" transform="rotate(240 50 50)"/>
+      <use href="#sw-ray" transform="rotate(300 50 50)"/>
+    </g>
+  </symbol>
+</svg>
+
+<div class="page">
+  <h1>Наставник 24/7 — карточки для бота</h1>
+  <p class="sub">Фирменный стиль Siberian Wellness · формат 9:16</p>
+
+  <div class="grid">
+
+    <!-- 1. ПРИВЕТСТВИЕ -->
+    <div class="item">
+      <div class="card" id="card-hello">
+        <div class="banner">
+          <span class="badge">SIBERIAN WELLNESS</span>
+          <div class="logo"><span class="big">Наставник</span><span class="sm">24/7</span></div>
+          <p class="tagline">Твой помощник в бизнесе — на связи круглосуточно</p>
+        </div>
+        <div class="hello-body">
+          <svg class="hello-snow"><use href="#sw-snow"/></svg>
+          <h2>Привет! 👋</h2>
+          <p>Я буду рядом в первые месяцы: напомню о важных шагах, объясню, как работают <b>Club 200</b> и <b>Club 1000</b>, и помогу не упустить бонусы.</p>
+        </div>
+        <div class="footer">▶️ Поехали — расскажу, что тебя ждёт</div>
+      </div>
+    </div>
+
+    <!-- 2. CLUB 200 — 3 ШАГА -->
+    <div class="item">
+      <div class="card" id="card-c200">
+        <div class="banner">
+          <span class="badge">30-й бизнес-год</span>
+          <div class="snow-badge teal"><svg class="snow" style="width:44px;height:44px"><use href="#sw-snow"/></svg><span class="num">200</span></div>
+          <div class="logo"><span class="big">Club</span><span class="sm">200</span></div>
+          <p class="tagline">Только для новых Бизнес-Партнёров</p>
+        </div>
+        <div class="body">
+          <div class="step teal"><div class="n">1</div><div class="txt"><b>Выполняй</b><span>В 1-й или 2-й месяц регистрации — 200 баллов (онлайн и офлайн).</span></div></div>
+          <div class="step teal"><div class="n">2</div><div class="txt"><b>Сохраняй</b><span>Такую активность 6 месяцев подряд.</span></div></div>
+          <div class="step teal"><div class="n">3</div><div class="txt"><b>Получай</b><span>Каждый месяц новый набор суперхитов Компании.</span></div></div>
+        </div>
+        <div class="footer">Выгода до 86% на наборах<small>+ кэшбэк до 25% для Бизнес-Партнёра</small></div>
+      </div>
+    </div>
+
+    <!-- 3. CLUB 200 — НАБОРЫ ПО МЕСЯЦАМ -->
+    <div class="item">
+      <div class="card" id="card-c200-sets">
+        <div class="banner" style="padding-bottom:24px">
+          <span class="badge">30-й бизнес-год</span>
+          <div class="logo"><span class="big" style="font-size:46px">Club 200</span></div>
+          <p class="tagline" style="font-size:16px">Наборы суперхитов по месяцам</p>
+        </div>
+        <div class="body" style="padding-top:22px">
+          <div class="tiles">
+            <div class="tile"><div class="cap">1-й месяц</div><div class="old">3 000 ₽</div><div class="price">за <b>900 ₽</b></div><div class="win">выгода 2 100 ₽</div></div>
+            <div class="tile"><div class="cap">2-й месяц</div><div class="old">3 500 ₽</div><div class="price">за <b>900 ₽</b></div><div class="win">выгода 2 600 ₽</div></div>
+            <div class="tile"><div class="cap">3-й месяц</div><div class="old">4 000 ₽</div><div class="price">за <b>900 ₽</b></div><div class="win">выгода 3 100 ₽</div></div>
+            <div class="tile"><div class="cap">4-й месяц</div><div class="old">4 500 ₽</div><div class="price">за <b>900 ₽</b></div><div class="win">выгода 3 600 ₽</div></div>
+            <div class="tile"><div class="cap">5-й месяц</div><div class="old">5 500 ₽</div><div class="price">за <b>900 ₽</b></div><div class="win">выгода 4 600 ₽</div></div>
+            <div class="tile"><div class="cap">6-й месяц</div><div class="old">6 500 ₽</div><div class="price">за <b>900 ₽</b></div><div class="win">выгода 5 600 ₽</div></div>
+          </div>
+        </div>
+        <div class="footer">27 000 ₽ продукции — за 5 400 ₽<small>твоя выгода до 21 600 ₽ за 6 месяцев</small></div>
+      </div>
+    </div>
+
+    <!-- 4. CLUB 1000 — 4 ШАГА -->
+    <div class="item">
+      <div class="card" id="card-c1000">
+        <div class="banner">
+          <span class="badge">30-й бизнес-год</span>
+          <div class="snow-badge"><svg class="snow" style="width:44px;height:44px"><use href="#sw-snow"/></svg><span class="num">1000</span></div>
+          <div class="logo"><span class="big">Club</span><span class="sm">1000</span></div>
+          <p class="tagline">Живи на максимум — с wellness-бонусами</p>
+        </div>
+        <div class="body" style="padding-top:22px">
+          <div class="step violet"><div class="n">1</div><div class="txt"><b>Покупай</b><span>Каждый месяц на 200 баллов и более.</span></div></div>
+          <div class="step violet"><div class="n">2</div><div class="txt"><b>Приглашай</b><span>Новых клиентов и выполняй с ними от 500 баллов в месяц.</span></div></div>
+          <div class="step violet"><div class="n">3</div><div class="txt"><b>Накапливай</b><span>Снежинки ❄️: 500 баллов = 1, 1000 баллов = 2.</span></div></div>
+          <div class="step violet"><div class="n">4</div><div class="txt"><b>Получай</b><span>Сертификат — до 50 000 ₽ за 24 снежинки.</span></div></div>
+        </div>
+        <div class="footer">Максимум по программе — 50 000 ₽<small>срок программы 12 месяцев</small></div>
+      </div>
+    </div>
+
+    <!-- 5. CLUB 1000 — ШКАЛА СЕРТИФИКАТОВ -->
+    <div class="item">
+      <div class="card" id="card-c1000-scale">
+        <div class="banner" style="padding-bottom:24px">
+          <span class="badge">30-й бизнес-год</span>
+          <div class="logo"><span class="big" style="font-size:46px">Club 1000</span></div>
+          <p class="tagline" style="font-size:16px">Снежинки → сертификаты</p>
+        </div>
+        <div class="hero-sum">
+          <span class="lbl">Твой максимальный успех</span>
+          <span class="val">50 000 ₽<small>за 24 снежинки</small></span>
+        </div>
+        <div class="body" style="padding-top:6px">
+          <div class="cert"><span class="flakes"><svg><use href="#sw-snow"/></svg>6</span><span class="arrow">→</span><span class="sum">7 000 ₽</span></div>
+          <div class="cert"><span class="flakes"><svg><use href="#sw-snow"/></svg>9</span><span class="arrow">→</span><span class="sum">10 000 ₽</span></div>
+          <div class="cert"><span class="flakes"><svg><use href="#sw-snow"/></svg>12</span><span class="arrow">→</span><span class="sum">20 000 ₽</span></div>
+          <div class="cert"><span class="flakes"><svg><use href="#sw-snow"/></svg>18</span><span class="arrow">→</span><span class="sum">35 000 ₽</span></div>
+          <div class="cert max"><span class="flakes"><svg><use href="#sw-snow"/></svg>24</span><span class="arrow">→</span><span class="sum">50 000 ₽</span></div>
+        </div>
+        <p class="note">В месяц — максимум 2 снежинки. После обмена на сертификат накопление начинается заново.</p>
+      </div>
+    </div>
+
+    <!-- 6. КЛУБ ПОСТОЯНСТВА -->
+    <div class="item">
+      <div class="card" id="card-loyalty">
+        <div class="banner">
+          <span class="badge">ДЛЯ ТВОИХ КЛИЕНТОВ</span>
+          <div class="snow-badge orange"><svg class="snow" style="width:44px;height:44px"><use href="#sw-snow"/></svg><span class="num">50</span></div>
+          <div class="logo"><span class="big" style="font-size:46px">Клуб</span><span class="sm" style="font-size:46px">Постоянства</span></div>
+          <p class="tagline">Подарки клиенту за регулярные покупки</p>
+        </div>
+        <div class="body" style="padding-top:22px">
+          <div class="step orange"><div class="n">1</div><div class="txt"><b>Покупай</b><span>На 50 баллов (≈ 2 400 ₽) каждый месяц.</span></div></div>
+          <div class="step orange"><div class="n">2</div><div class="txt"><b>Повторяй</b><span>3 месяца подряд — и получаешь подарок (1 раз). Полный цикл — 6 месяцев.</span></div></div>
+          <div class="step orange"><div class="n">3</div><div class="txt"><b>Получай</b><span>Один из популярных продуктов Компании в подарок.</span></div></div>
+        </div>
+        <div class="footer">Инструмент для удержания клиентов<small>стабильный оборот → твои снежинки Club 1000</small></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
