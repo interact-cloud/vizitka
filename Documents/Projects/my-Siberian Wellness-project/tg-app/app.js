@@ -288,6 +288,7 @@ const SCREENS = {
       { id: "programs",   emoji: "🎯", label: "Программы" },
       { id: "goals",      emoji: "🛍️", label: "Подобрать продукт" },
       { id: "objections", emoji: "🛡️", label: "Возражения" },
+      { id: "scale",      emoji: "🚀", label: "Масштабируй и зарабатывай" },
       { id: "faq",        emoji: "❓", label: "Частые вопросы" },
       { id: "mentor",     emoji: "💬", label: "Спросить наставника" },
     ];
@@ -567,6 +568,45 @@ const SCREENS = {
             <div class="accordion__q"><span>${esc(f.q)}</span><span class="accordion__icon">+</span></div>
             <div class="accordion__a">${esc(f.a)}</div>
           </div>`).join("")}
+      </section>`;
+  },
+
+  /* --- МАСШТАБИРУЙ И ЗАРАБАТЫВАЙ --- */
+  scale() {
+    // 3 клавиши «как в задачах»: заголовок + раскрываемый по «Жми» текст.
+    // Тексты — в DATA.scaleTips (заполняются по контенту пользователя).
+    const tips = DATA.scaleTips || [];
+    return `
+      <section>
+        ${head("Масштабируй и зарабатывай")}
+
+        <div class="card" style="background:linear-gradient(135deg,var(--sw-violet),var(--sw-banner));color:#fff;">
+          <div class="card__title" style="color:#fff;">Доход растёт через команду 🚀</div>
+        </div>
+
+        <div class="card">
+          <div class="card__text" style="color:var(--tg-text);line-height:1.5;">
+            Многие партнёры ставят цель — 1000 баллов. Это хороший ориентир, но не вершина, а начало нового этапа роста.<br><br>
+            Пока результат создаёшь только ты — растёт личный объём. Когда такого же результата достигают люди в твоей команде — растёт бизнес.<br><br>
+            Поэтому важно думать не только о своих показателях, но и о развитии партнёров. Спроси себя: <i>если завтра я достигну 1000 баллов, смогу ли помочь другим пройти этот путь?</i><br><br>
+            Именно это отличает исполнителя от лидера. Лидер не просто достигает целей — он помогает другим достигать их тоже.<br><br>
+            Даже если твои первые 1000 баллов ещё впереди, лидерское мышление можно развивать уже сейчас: учиться не только делать результат, но и передавать знания, поддерживать людей и помогать им расти.<br><br>
+            Потому что большой бизнес строится не на личных рекордах, а на успехах команды.
+          </div>
+        </div>
+
+        ${tips.map((t, i) => `
+          <div class="task-wrap">
+            <div class="task">
+              <span class="task__main" style="cursor:default;">
+                <span class="task__text" style="font-weight:600;">${esc(t.title)}</span>
+              </span>
+              <button class="task__tip-btn" onclick="toggleTip(${i})" aria-label="Подробнее">Жми</button>
+            </div>
+            <div class="task__tip" id="tip-${i}">${esc(t.text)}</div>
+          </div>`).join("")}
+
+        <button class="btn" onclick="nav('mentor')">💬 Обсудить план роста с наставником</button>
       </section>`;
   },
 
