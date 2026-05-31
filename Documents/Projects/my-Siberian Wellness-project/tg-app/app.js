@@ -198,6 +198,13 @@ function toggleTask(day, idx) {
   go("today", false); // перерисовать экран задач
 }
 
+// Показать/скрыть рекомендацию к задаче (idx 0..2). Без перерисовки экрана.
+function toggleTip(idx) {
+  haptic();
+  const el = document.getElementById("tip-" + idx);
+  if (el) el.classList.toggle("is-open");
+}
+
 /* ===================== 2. Навигация между экранами ===================== */
 
 // Стек истории — чтобы кнопка «назад» возвращала на предыдущий экран
@@ -346,12 +353,18 @@ const SCREENS = {
           <div class="progress-bar"><div class="progress-bar__fill" style="width:${Math.round(doneCount/3*100)}%;"></div></div>
         </div>
 
-        <!-- Сами задачи (нажимаются — отмечаются выполненными) -->
+        <!-- Сами задачи: клик по тексту — отметка; кнопка 💡 — рекомендация -->
         ${tasks.map((t, i) => `
-          <button class="task ${done[i] ? "is-done" : ""}" onclick="toggleTask(${day}, ${i})">
-            <span class="task__check">${done[i] ? "✓" : ""}</span>
-            <span class="task__text">${esc(t)}</span>
-          </button>`).join("")}
+          <div class="task-wrap">
+            <div class="task ${done[i] ? "is-done" : ""}">
+              <button class="task__main" onclick="toggleTask(${day}, ${i})">
+                <span class="task__check">${done[i] ? "✓" : ""}</span>
+                <span class="task__text">${esc(t)}</span>
+              </button>
+              <button class="task__tip-btn" onclick="toggleTip(${i})" aria-label="Рекомендация">Жми</button>
+            </div>
+            <div class="task__tip" id="tip-${i}">${esc((DATA.taskTips[day-1] || [])[i] || "Рекомендация скоро появится.")}</div>
+          </div>`).join("")}
 
         ${doneCount === 3
           ? `<div class="note">🔥 Все задачи дня выполнены! Завтра — новый день и новые шаги.</div>`

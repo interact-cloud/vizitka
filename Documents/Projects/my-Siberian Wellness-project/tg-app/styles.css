@@ -334,24 +334,31 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .product__price { font-size: 14px; font-weight: 700; white-space: nowrap; }
 .product__points { font-size: 12px; color: var(--accent); display: block; text-align: right; }
 
-/* --- Задача дня (кликабельная, отмечается галочкой) --- */
+/* --- Задача дня: строка = [галочка+текст | кнопка 💡], под ней раскрывается подсказка --- */
+.task-wrap { margin-bottom: 10px; }
 .task {
-  width: 100%;
+  display: flex;
+  align-items: stretch;
+  background: var(--tg-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+/* Основная зона (клик = отметить выполнено) */
+.task__main {
+  flex: 1 1 auto;
   display: flex;
   align-items: flex-start;
   gap: 12px;
   text-align: left;
-  background: var(--tg-card);
+  background: transparent;
   border: none;
-  border-radius: var(--radius);
-  padding: 14px 16px;
-  margin-bottom: 10px;
+  padding: 14px 8px 14px 16px;
   cursor: pointer;
   color: var(--tg-text);
-  box-shadow: var(--shadow);
-  transition: transform 0.12s ease, opacity 0.2s ease;
+  transition: transform 0.12s ease;
 }
-.task:active { transform: scale(0.98); }
+.task__main:active { transform: scale(0.98); }
 .task__check {
   flex: 0 0 26px;
   width: 26px; height: 26px;
@@ -364,6 +371,38 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .task__text { font-size: 14px; line-height: 1.4; padding-top: 2px; }
 .task.is-done .task__check { background: var(--sw-teal); border-color: var(--sw-teal); }
 .task.is-done .task__text { color: var(--tg-hint); text-decoration: line-through; }
+/* Кнопка-лампочка (рекомендация) */
+.task__tip-btn {
+  flex: 0 0 auto;
+  padding: 0 14px;
+  border: none;
+  background: transparent;
+  border-left: 1px solid var(--tg-separator);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--sw-violet);
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+.task__tip-btn:active { transform: scale(0.9); }
+/* Блок рекомендации (скрыт по умолчанию) */
+.task__tip {
+  display: none;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--tg-text);
+  background: var(--card-soft, rgba(108,92,231,0.08));
+  border-radius: 0 0 var(--radius) var(--radius);
+  padding: 0 16px;
+  margin-top: -10px;
+  border-left: 3px solid var(--sw-violet);
+}
+.task__tip.is-open {
+  display: block;
+  padding: 12px 16px;
+  margin-top: 2px;
+  animation: fadeSlide 0.2s ease;
+}
 
 /* --- Счётчик действий (партнёр сам отмечает баллы) --- */
 .counter {
