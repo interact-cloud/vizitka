@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!--
+  index.html — точка входа Telegram Mini App «Лёгкий старт».
+  Подключает: Telegram Web App SDK, стили (styles.css),
+  данные (data.js) и логику (app.js).
+  Порядок важен: data.js ДО app.js (app.js использует DATA).
+-->
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <!-- Мобильный вьюпорт: фиксируем масштаб, учитываем «чёлку» (safe-area) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Лёгкий старт</title>
+
+  <!-- Telegram Web App SDK — даёт тему, данные пользователя, кнопку «назад», виброотклик -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <!-- Фирменный шрифт Siberian Wellness — Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Стили приложения -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Корневой контейнер приложения (ограничен мобильной шириной в CSS) -->
+  <div id="app">
+    <!-- Шапка: кнопка «назад» (появляется не на главной) -->
+    <header class="header">
+      <button id="backBtn" class="header__back" aria-label="Назад"><span class="header__back-arrow">‹</span> Назад</button>
+      <span class="header__title">Лёгкий старт</span>
+    </header>
+
+    <!-- Сюда app.js рендерит текущий экран -->
+    <main id="screens"></main>
+  </div>
+
+  <!-- Данные ДО логики -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

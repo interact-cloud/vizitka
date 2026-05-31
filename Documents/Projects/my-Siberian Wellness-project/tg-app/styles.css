@@ -1,0 +1,425 @@
+/*
+ * styles.css — стили Mini App «Лёгкий старт».
+ * Фирменный стиль Siberian Wellness: сиреневый фон, фиолет/бирюза/золото,
+ * шрифт Montserrat, закруглённые карточки, мягкие тени.
+ *
+ * Палитра — в :root ниже (НЕ берётся из Telegram). От Telegram приходит
+ * только признак тёмной темы → класс html.theme-dark (см. app.js).
+ * Префикс --tg-* у переменных оставлен исторически (это просто имена).
+ */
+
+/* --- Сброс и базовые переменные --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* === Фирменная палитра Siberian Wellness (30-й бизнес-год) === */
+  --sw-bg:        #c9c2ea;   /* светлый сиреневый фон */
+  --sw-banner:    #4f46a8;   /* насыщенный фиолетовый — шапки/баннеры */
+  --sw-violet:    #6c5ce7;   /* фиолетовый акцент — главный (кнопки) */
+  --sw-violet-deep:#5b21b6;  /* тёмный фиолетовый — заголовки */
+  --sw-teal:      #1fb8ae;   /* бирюзовый акцент */
+  --sw-gold:      #e6c089;   /* кремово-золотой */
+  --sw-ink:       #2d2a5a;   /* основной тёмный текст */
+
+  /* Акцент приложения — фирменный фиолет SW (вместо голубого Telegram) */
+  --accent: #6c5ce7;
+
+  /* --- Светлая тема (по умолчанию) — фирменный светлый SW --- */
+  --tg-bg: #c9c2ea;          /* сиреневый фон страницы */
+  --tg-card: #ffffff;        /* белые карточки */
+  --tg-text: #2d2a5a;        /* основной текст (ink) */
+  --tg-hint: #6b6790;        /* второстепенный текст */
+  --tg-link: #6c5ce7;        /* ссылки/акцент */
+  --tg-button: #6c5ce7;      /* кнопки — фиолет SW */
+  --tg-button-text: #ffffff; /* текст кнопок */
+  --tg-separator: rgba(45,42,90,0.10); /* разделители */
+
+  /* Радиусы и тени — мягкие, фирменные карточки 16–24px */
+  --radius: 16px;
+  --radius-lg: 22px;
+  --shadow: 0 2px 8px rgba(91,33,182,0.08), 0 8px 24px rgba(91,33,182,0.06);
+}
+
+/* --- Тёмная тема: тёмный фон, но фирменные акценты (фиолет/бирюза/золото) сохраняются.
+   Класс .theme-dark ставит app.js, когда Telegram в тёмной теме. --- */
+html.theme-dark {
+  --tg-bg: #17152b;          /* тёмный сине-фиолетовый фон */
+  --tg-card: #221f3d;        /* тёмные карточки */
+  --tg-text: #ece9fb;        /* светлый текст */
+  --tg-hint: #9b96c4;        /* приглушённый текст */
+  --tg-link: #8b7cf0;        /* акцент чуть светлее для контраста */
+  --tg-button: #6c5ce7;      /* кнопки — тот же фирменный фиолет */
+  --tg-button-text: #ffffff;
+  --tg-separator: rgba(255,255,255,0.10);
+  --accent: #8b7cf0;
+  --shadow: 0 2px 8px rgba(0,0,0,0.30), 0 8px 24px rgba(0,0,0,0.20);
+}
+
+/* --- Каркас: мобильный экран, без горизонтальной прокрутки --- */
+html, body {
+  background: var(--tg-bg);
+  color: var(--tg-text);
+  /* Фирменный шрифт Siberian Wellness — Montserrat (с системным фолбэком) */
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;          /* нет горизонтальной прокрутки */
+  overscroll-behavior-y: contain;
+}
+
+/* Контейнер ограничен по ширине мобильного (320–430px), по центру на десктопе */
+#app {
+  max-width: 430px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 0 16px calc(24px + env(safe-area-inset-bottom));
+  position: relative;
+}
+
+/* --- Шапка экрана: заголовок + кнопка «назад» --- */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--tg-bg);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 0 10px;
+}
+.header__back {
+  /* Кнопка назад — стрелка + надпись «Назад». Высота >= 44px для удобного касания */
+  height: 44px;
+  padding: 0 16px 0 12px;
+  border: none;
+  background: var(--tg-card);
+  border-radius: 22px;
+  color: var(--tg-text);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: none;               /* показывается только не на главном экране */
+  align-items: center;
+  gap: 4px;
+  box-shadow: var(--shadow);
+}
+.header__back.is-visible { display: inline-flex; }
+.header__back-arrow { font-size: 20px; line-height: 1; }
+.header__title {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+/* Заголовки экранов — плотный фирменный гротеск */
+.header__title-inner { color: var(--tg-text); }
+.card__title, .header__title-inner { font-weight: 700; }
+
+/* --- Экраны и плавные переходы (fade + лёгкий сдвиг, 250ms) --- */
+.screen { display: none; }
+.screen.is-active {
+  display: block;
+  animation: fadeSlide 0.25s ease;
+}
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Приветственный блок на главной --- */
+.hero {
+  /* Фирменный фиолетовый баннер SW */
+  background: linear-gradient(135deg, var(--sw-violet), var(--sw-banner));
+  color: #fff;
+  border-radius: var(--radius-lg);
+  padding: 20px 18px;
+  margin-bottom: 16px;
+  box-shadow: 0 6px 20px rgba(91,33,182,0.28);
+}
+.hero__hi { font-size: 14px; font-weight: 500; opacity: 0.92; }
+.hero__name { font-size: 24px; font-weight: 800; margin: 2px 0 6px; }
+.hero__sub { font-size: 14px; font-weight: 400; opacity: 0.95; }
+
+/* --- Карточка (универсальный блок) --- */
+.card {
+  background: var(--tg-card);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+}
+.card__title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+.card__text { font-size: 14px; color: var(--tg-hint); }
+
+/* --- Сетка плиток меню --- */
+.menu-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.tile {
+  /* Плитка меню — кнопка минимум 44px высотой (тут больше) */
+  background: var(--tg-card);
+  border: none;
+  border-radius: var(--radius);
+  padding: 16px 12px;
+  min-height: 92px;
+  text-align: left;
+  cursor: pointer;
+  color: var(--tg-text);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.tile__emoji { font-size: 26px; }
+.tile__label { font-size: 14px; font-weight: 600; line-height: 1.25; }
+
+/* --- Список-строки (программы, цели, FAQ, возражения) --- */
+.row {
+  width: 100%;
+  background: var(--tg-card);
+  border: none;
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  text-align: left;
+  cursor: pointer;
+  color: var(--tg-text);
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: transform 0.12s ease;
+}
+.row__emoji { font-size: 24px; flex: 0 0 auto; }
+.row__body { flex: 1 1 auto; min-width: 0; }
+.row__title { font-size: 15px; font-weight: 600; }
+.row__sub { font-size: 13px; color: var(--tg-hint); margin-top: 2px; }
+.row__chevron { color: var(--tg-hint); font-size: 18px; flex: 0 0 auto; }
+
+/* Цветная полоска слева у программ */
+.row--accent { border-left: 4px solid var(--row-color, var(--accent)); }
+
+/* --- Отзывчивость касания: всё кликабельное «проседает» при нажатии --- */
+.tile:active, .row:active, .btn:active, .header__back:active {
+  transform: scale(0.97);
+}
+/* Убираем синюю подсветку тапа на мобильных */
+button, a { -webkit-tap-highlight-color: transparent; }
+
+/* --- Кнопки --- */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 48px;            /* >= 44px по ТЗ */
+  border: none;
+  border-radius: var(--radius);
+  background: var(--tg-button);
+  color: var(--tg-button-text);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  text-decoration: none;
+  transition: transform 0.12s ease, opacity 0.12s ease;
+}
+.btn--secondary {
+  background: var(--tg-card);
+  color: var(--tg-link);
+  box-shadow: var(--shadow);
+}
+
+/* --- Прогресс-шкала (экран «Мой прогресс») --- */
+.progress-bar {
+  height: 10px;
+  border-radius: 6px;
+  background: var(--tg-separator);
+  overflow: hidden;
+  margin: 8px 0 4px;
+}
+.progress-bar__fill {
+  height: 100%;
+  border-radius: 6px;
+  background: var(--accent);
+  transition: width 0.4s ease;
+}
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--tg-separator);
+}
+.stat-row:last-child { border-bottom: none; }
+.stat-row__label { font-size: 14px; color: var(--tg-hint); }
+.stat-row__value { font-size: 16px; font-weight: 700; }
+
+/* Снежинки крупно */
+.snowflakes { font-size: 28px; letter-spacing: 2px; margin: 6px 0; }
+
+/* --- Шаги программы (нумерованный список) --- */
+.steps { list-style: none; counter-reset: step; margin: 10px 0; }
+.steps li {
+  counter-increment: step;
+  position: relative;
+  padding: 8px 0 8px 38px;
+  font-size: 14px;
+  border-bottom: 1px solid var(--tg-separator);
+}
+.steps li:last-child { border-bottom: none; }
+.steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0; top: 8px;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--prog-color, var(--accent));
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- Простая таблица (наборы Club 200, шкала Club 1000) --- */
+.mini-table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 14px; }
+.mini-table td {
+  padding: 9px 6px;
+  border-bottom: 1px solid var(--tg-separator);
+}
+.mini-table tr:last-child td { border-bottom: none; }
+.mini-table td:last-child { text-align: right; font-weight: 700; }
+
+/* --- Раскрывающийся блок (FAQ, возражения) --- */
+.accordion__q {
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.accordion__a {
+  font-size: 14px;
+  color: var(--tg-hint);
+  margin-top: 8px;
+  display: none;
+}
+.accordion.is-open .accordion__a { display: block; animation: fadeSlide 0.2s ease; }
+.accordion.is-open .accordion__icon { transform: rotate(45deg); }
+.accordion__icon { transition: transform 0.2s ease; color: var(--tg-hint); }
+
+/* --- Карточка продукта (подбор) --- */
+.product {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--tg-separator);
+}
+.product:last-child { border-bottom: none; }
+.product__name { font-size: 14px; font-weight: 600; }
+.product__note { font-size: 13px; color: var(--tg-hint); }
+.product__price { font-size: 14px; font-weight: 700; white-space: nowrap; }
+.product__points { font-size: 12px; color: var(--accent); display: block; text-align: right; }
+
+/* --- Задача дня (кликабельная, отмечается галочкой) --- */
+.task {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  text-align: left;
+  background: var(--tg-card);
+  border: none;
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  color: var(--tg-text);
+  box-shadow: var(--shadow);
+  transition: transform 0.12s ease, opacity 0.2s ease;
+}
+.task:active { transform: scale(0.98); }
+.task__check {
+  flex: 0 0 26px;
+  width: 26px; height: 26px;
+  border-radius: 8px;
+  border: 2px solid var(--tg-separator);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 800;
+  color: #fff;
+}
+.task__text { font-size: 14px; line-height: 1.4; padding-top: 2px; }
+.task.is-done .task__check { background: var(--sw-teal); border-color: var(--sw-teal); }
+.task.is-done .task__text { color: var(--tg-hint); text-decoration: line-through; }
+
+/* --- Счётчик действий (партнёр сам отмечает баллы) --- */
+.counter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--tg-separator);
+}
+.counter:last-child { border-bottom: none; }
+.counter__label { font-size: 14px; font-weight: 600; }
+.counter__label small { font-weight: 400; color: var(--tg-hint); font-size: 12px; }
+.counter__ctrl { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; }
+.counter__btn {
+  width: 44px; height: 44px;          /* удобное касание >= 44px */
+  border: none;
+  border-radius: 12px;
+  background: var(--tg-bg);
+  color: var(--tg-text);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+.counter__btn:active { transform: scale(0.92); }
+.counter__val { min-width: 42px; text-align: center; font-size: 18px; font-weight: 800; }
+/* Поле ручного ввода баллов (в т.ч. дробных) */
+.counter__input {
+  width: 64px; height: 44px;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 800;
+  font-family: inherit;
+  color: var(--tg-text);
+  background: var(--tg-bg);
+  border: 1.5px solid var(--tg-separator);
+  border-radius: 12px;
+}
+.counter__input:focus { outline: none; border-color: var(--accent); }
+
+/* --- Подсказка / плашка --- */
+.note {
+  font-size: 13px;
+  color: var(--tg-hint);
+  padding: 12px 14px;
+  background: var(--tg-card);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+}
+.section-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tg-hint);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin: 16px 4px 8px;
+}
